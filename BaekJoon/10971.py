@@ -1,24 +1,35 @@
 import sys
+from itertools import permutations
+
+global N
+global pathmap
 N = int(sys.stdin.readline())
 pathmap = []
+node = []
+answer = int(1e9)
+
+def dfs(stat,path,rest,score):
+    if stat == N:
+        if pathmap[path[-1]][path[0]] == 0:
+            return
+        else:
+            global answer
+            tmp = score+pathmap[path[-1]][path[0]]
+            answer = min(answer,tmp)
+
+            return
+    for i in range(len(rest)):
+        ss = pathmap[path[-1]][rest[i]]
+        if ss > 0:
+            dfs(stat+1,path+[rest[i]],rest[:i]+rest[i+1:],score+ss)
+
 
 for i in range(N):
     tmp = list(map(int,sys.stdin.readline().split()))
     pathmap.append(tmp)
+    node.append(i)
 
-sol = 1000000*N
-
-def recurload(road,m,proc,costsum):
-    global sol
-    if m == N-1:
-        sol = min(sol,costsum)
-    for i in range(len(road)):
-        if pathmap[proc[-1]][road[i]] > 0 and costsum+pathmap[proc[-1]][road[i]] < sol:
-            recurload(road[:i]+road[i+1:],m+1,proc+str(road[i]),costsum+pathmap[proc[-1]][road[i]])
-
-numlist = []
 for i in range(N):
-    numlist.append(i)
+    dfs(1,[node[i]],node[:i]+node[i+1:],0)
 
-for i in range(len(numlist)):
-    recurload(numlist[:i]+numlist[i+1:],1,)
+print(answer)
