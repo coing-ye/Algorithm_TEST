@@ -9,19 +9,17 @@ public class Main {
 		StringTokenizer st= new StringTokenizer(br.readLine().trim()," ");
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
-		int nc = 0;
-		int mc = 0;
+		int bn = Math.max(N, M);
+		int sn = Math.min(N, M);
 		
-
-		int gcd = 0;
-		int BN = Math.min(N, M);
-		for(int i=1;i<=BN;i++) {
-			if(M%i==0 && N%i==0) {
-				gcd = i;
-			}
+		while(bn%sn != 0) {
+			int md = bn%sn;
+			bn = sn;
+			sn = md;
 		}
-		System.out.println(gcd);
-		System.out.println(gcd*(N/gcd)*(M/gcd));
+		
+		System.out.println(sn);
+		System.out.println(sn*(N/sn)*(M/sn));
 		
 	}
 
