@@ -9,10 +9,11 @@ public class Main {
 		int V = Integer.parseInt(st.nextToken());
 		int E = Integer.parseInt(st.nextToken());
 		boolean[] v = new boolean[V+1];
-		ArrayList<int[]>[] g = new ArrayList[V+1];
 		int[] dist = new int[V+1];
-		for(int i=1;i<V+1;i++) dist[i] = Integer.MAX_VALUE;
+        for(int i=1;i<V+1;i++) dist[i] = Integer.MAX_VALUE;
+        ArrayList<int[]>[] g = new ArrayList[V+1];
 		for(int i=0;i<V+1;i++) g[i] = new ArrayList<int[]>();
+        
 		PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
 			@Override
 			public int compare(int[] o1, int[] o2) {
@@ -20,6 +21,7 @@ public class Main {
 				return 0;
 			}
 		});
+        
 		int start = Integer.parseInt(br.readLine().trim());
 		for(int i =0; i<E;i++) {
 			st = new StringTokenizer(br.readLine().trim()," ");
@@ -28,16 +30,10 @@ public class Main {
 			int cost = Integer.parseInt(st.nextToken());
 			g[from].add(new int[] {to,cost});
 		}
-//		for(int i= 1;i<=V;i++) {
-//			System.out.println(i);
-//			for(int j =0; j< g[i].size();j++) {
-//				System.out.print(Arrays.toString(g[i].get(j)) + " ");
-//			}
-//			System.out.println();
-//		}
 		
 		pq.offer(new int[] {start,0});
 		dist[start] = 0;
+        
 		while(!pq.isEmpty()) {
 			int[] now = pq.poll();
 			if(v[now[0]]==true) continue;
