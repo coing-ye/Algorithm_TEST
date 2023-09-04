@@ -56,7 +56,7 @@ public class Main {
 			endpoint[0] = Integer.parseInt(st.nextToken());
 			endpoint[1] = Integer.parseInt(st.nextToken());
 		
-			Arrays.sort(cs, (int[] o1, int[] o2)-> getdistance(startpoint,o1)-getdistance(startpoint,o2));
+			//Arrays.sort(cs, (int[] o1, int[] o2)-> getdistance(startpoint,o1)-getdistance(startpoint,o2));
 		
 			if(dfs(0,startpoint)) System.out.println("happy");
 			else System.out.println("sad");
