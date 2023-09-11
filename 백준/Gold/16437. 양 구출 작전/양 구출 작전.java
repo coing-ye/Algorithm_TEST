@@ -10,7 +10,8 @@ public class Main {
 	static public char[] animal;
 
 	
-	
+	//기본적으로 BFS와 DP를 조합해서 풀었습니다.
+    //결국 가장 bottom부터 top까지 자식의 양의 수를 더해가면 되는, 전형적인 bottom-top 문제였습니다.
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,6 +26,7 @@ public class Main {
 		for(int i=1;i<=N;i++) {
 			island[i] = new ArrayList<>();
 		}
+        //주어지는 입력에 따라 각 섬의 동물, 숫자, 그리고 연결된 섬들을 "부모노드" 기준으로 저장합니다.
 		for(int i=0;i<N-1;i++) {
 			st = new StringTokenizer(br.readLine().trim());
 			animal[i+2] = st.nextToken().charAt(0);
@@ -34,6 +36,8 @@ public class Main {
 		
 		depth[1][0] = 1;
 		depth[1][1] = 1;
+        
+        //BFS 부분. 1번 섬부터 각 섬에 연결된 자식 섬들의 depth를 저장합니다.
 		ArrayDeque<Integer> dq = new ArrayDeque<>();
 		dq.offer(1);
 		while(!dq.isEmpty()) {
@@ -44,21 +48,11 @@ public class Main {
 				dq.offer(island[now].get(i));
 			}
 		}
-//		for(int i = 0;i <=N;i++) {
-//			System.out.println(Arrays.toString(depth[i]));
-//		}
-//		for(int i=1;i<=N;i++) {
-//			depth[i][0] =i;
-//			for(int l=0;l<island[i].size();l++) {
-//				depth[island[i].get(l)][1] = depth[i][1]+1;
-//			}
-//		}
 		
+        //각 섬의 번호와 depth를 depth 기준으로 정렬합니다.
 		Arrays.sort(depth, (int[] o1, int[] o2) -> -Integer.compare(o1[1], o2[1]));
-		//System.out.println(Arrays.toString(amount));
-		
-		//System.out.println(Arrays.toString(dpisland));
-		
+	
+        //정렬 후 가장 깊은 depth의 노드부터 bottom-top으로 dp를 진행시킵니다.
 		for(int i= 0; i<N;i++) {
 			int node = depth[i][0];
 			long lowsheep = 0;
@@ -66,24 +60,19 @@ public class Main {
 			for(int l=0;l<island[node].size();l++) {
 				lowsheep += dpisland[island[node].get(l)];
 			}
+            //현재 노드가 양이라면 자식 노드의 양을 모두 더해서 저장
 			if(animal[node] =='S') {
 				dpisland[node] += lowsheep;
 			}
+            //늑대라면 자식노드의 양 - 현재 늑대수(현재 늑대수가 많다면 0)를 저장
 			else if(animal[node] == 'W') {
 				if(lowsheep > dpisland[node]) dpisland[node] = lowsheep - dpisland[node];
 				else dpisland[node] = 0;
 			}
-			
+            //만약 1번 섬에 도달했다면, 단순히 자식노드들의 양의 수 합산
 			if(node==1) dpisland[node] += lowsheep;
-			
-			
-			//System.out.println(node+" "+ Arrays.toString(dpisland));
-			
 		}
-		//System.out.println(Arrays.toString(dpisland));
 		System.out.println(dpisland[1]);
-		
-		
 	}
 
 }
