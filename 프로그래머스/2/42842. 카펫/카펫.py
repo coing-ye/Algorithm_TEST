@@ -7,4 +7,5 @@ def solution(brown, yellow):
             answer[0] = total//i
             answer[1] = i
             break
+            
     return answer
